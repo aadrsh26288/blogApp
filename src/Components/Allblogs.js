@@ -95,6 +95,7 @@ const Allblogs = () => {
                   <Link to={`/article/${article.id}`}>
                     {" "}
                     <div className="flex items-center gap-1 text-xl lex">
+                    
                       <TfiCommentAlt className="mt-1" />
                       <span>{article.comments?.length}</span>
                     </div>
@@ -103,10 +104,20 @@ const Allblogs = () => {
                     {user && (
                       <p className="text-xl lex flex items-center gap-1 w-full justify-end ">
                         {" "}
-                        <Likeblog id={article.id} likes={article.likes} />{" "}
-                        {article.likes?.length}
+                        <Likeblog  id={article.id} likes={article.likes} />{" "}
+                      {article.likes?.length}
                       </p>
+
                     )}
+
+                    {
+                      !user?<p className="lex text-xl ">{article.likes?.length} Likes
+                      </p>:''
+                    }
+                
+                  
+
+
                   </div>
                 </div>
               </div>

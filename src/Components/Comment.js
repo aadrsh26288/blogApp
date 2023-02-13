@@ -12,12 +12,14 @@ import { v4 as uuidv4 } from "uuid";
 import { RxCross2 } from "react-icons/rx";
 import { auth, db } from "../Firebase/firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
+import {Link} from 'react-router-dom'
 
 const Comment = ({ id }) => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [currentlyLoggedinUser] = useAuthState(auth);
   const commentRef = doc(db, "Articles", id);
+
 
   useEffect(() => {
     const docRef = doc(db, "Articles", id);
@@ -44,7 +46,7 @@ const Comment = ({ id }) => {
   };
   const handleDeleteComment = (comment) => {
     console.log(comment);
-    alert("clicked");
+    // alert("clicked");
     updateDoc(commentRef, {
       comments: arrayRemove(comment),
     })
@@ -106,7 +108,8 @@ const Comment = ({ id }) => {
         })}
 
       <div className="mr-5">
-        <input
+        {
+     currentlyLoggedinUser ?  <input
           type="text"
           placeholder="typing..."
           className="border-[1px] text-black rounded-3xl px-6 border-[#0b2239] mt-4  outline-none w-full p-2 "
@@ -115,7 +118,10 @@ const Comment = ({ id }) => {
             setComment(e.target.value);
           }}
           onKeyUp={handleChangeComment}
-        />
+        />:<p><Link to='/login'><span>Login</span></Link>/<Link to='/register'><span>register </span></Link>to comment</p>
+
+        }
+      
       </div>
       <ToastContainer
         position="top-right"

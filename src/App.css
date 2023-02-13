@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
+
+
+.dm{
+  font-family: 'DM Serif Display', serif;
+}
+
+.lex{
+  font-family: 'Lexend Deca', sans-serif;
+}

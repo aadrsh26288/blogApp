@@ -1,11 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap");
 
-
-.dm{
-  font-family: 'DM Serif Display', serif;
+.dm {
+	font-family: "DM Serif Display", serif;
 }
 
-.lex{
-  font-family: 'Lexend Deca', sans-serif;
+.lex {
+	font-family: "Lexend Deca", sans-serif;
+}
+
+.mon {
+	font-family: "Montserrat", sans-serif;
+}
+
+.over {
+	background: rgb(2, 0, 36);
+	background: linear-gradient(
+		21deg,
+		rgba(2, 0, 36, 1) 0%,
+		rgba(188, 188, 202, 1) 35%
+	);
 }

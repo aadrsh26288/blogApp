@@ -6,127 +6,181 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import Likeblog from "./Likeblog";
 import { TfiCommentAlt } from "react-icons/tfi";
+import { AiOutlineTwitter, AiFillYoutube } from "react-icons/ai";
+import Social from "./Social";
 
 const Allblogs = () => {
-  const [articles, setArticles] = useState([]);
-  const [user] = useAuthState(auth);
+	const [articles, setArticles] = useState([]);
+	const [user] = useAuthState(auth);
 
-  useEffect(() => {
-    const ArticleRef = collection(db, "Articles");
-    const q = query(ArticleRef, orderBy("createdAt", "desc"));
-    onSnapshot(q, (snapshot) => {
-      const articles = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setArticles(articles);
-    });
-  }, []);
+	useEffect(() => {
+		const ArticleRef = collection(db, "Articles");
+		const q = query(ArticleRef, orderBy("createdAt", "desc"));
+		onSnapshot(q, (snapshot) => {
+			const articles = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data(),
+			}));
+			setArticles(articles);
+		});
+	}, []);
 
-  console.log(articles);
+	console.log(articles);
 
-  return (
-    <div className="max-w-[90%] mx-auto my-10 text-white">
-      <div className="text-4xl  lex font-bold text-center pb-10 ">
-        <p>
-          Want to write something?{" "}
-          <Link to="/login">
-            <span className="text-[#6EEB83]">login</span>
-          </Link>
-          /
-          <Link to="/register">
-            <spna className="text-[#6EEB83]">register</spna>
-          </Link>
-        </p>
-      </div>
+	return (
+		<div>
+			{/* <Social article={articles} /> */}
+			<div className='flex md:max-w-[85%] md:flex-row flex-col  mx-auto justify-center  gap-10 content-center'>
+				<div className=' w-full text-black bg-white'>
+					{/* <div className='text-4xl  lex font-bold text-center pb-10 '>
+					<p>
+						Want to write something?{" "}
+						<Link to='/login'>
+							<span className='text-[#6EEB83]'>login</span>
+						</Link>
+						/
+						<Link to='/register'>
+							<spna className='text-[#6EEB83]'>register</spna>
+						</Link>
+					</p>
+				</div> */}
 
-      {/* <p className="lex text-xl text-center">Login / Register to create a new blog</p> */}
-      {articles.length === 0 ? (
-        <h1 className="text-center mt-20 lex text-6xl">No articles</h1>
-      ) : (
-        ""
-      )}
+					{/* <p className="lex text-xl text-center">Login / Register to create a new blog</p> */}
+					{articles.length === 0 ? (
+						<h1 className='text-center mt-20 lex text-6xl'>Loadign...</h1>
+					) : (
+						""
+					)}
 
-      {articles.map((article) => {
-        return (
-          <div>
-            <div
-              key={article.id}
-              className="mt-10  rounded-xl flex md:flex-row flex-col items-center justify-center gap-4 w-full"
-            >
-              <div className="overflow-hidden  ">
-                <Link to={`/article/${article.id}`}>
-                  <img
-                    src={article.imageUrl}
-                    className="  w-[300px]  object-cover"
-                  />
-                </Link>
-              </div>
+					{articles.map((article) => {
+						return (
+							<div>
+								<div
+									key={article.id}
+									className=' bg-white p-5 rounded-xl flex flex-col lg:flex-row justify-center gap-4 w-full'>
+									<div className='overflow-hidden  '>
+										<Link to={`/article/${article.id}`}>
+											<img
+												src={article.imageUrl}
+												className='w-[350px]  object-cover '
+											/>
+										</Link>
+									</div>
 
-              <div className="w-full px-4 ">
-                {user && user.uid === article.userId && (
-                  <div className="flex justify-end p-1 cursor-pointer">
-                    <Deleteblogs
-                      className="float-right text-2xl w-full cursor-pointer"
-                      id={article.id}
-                      imageUrl={article.imageUrl}
-                    ></Deleteblogs>
-                  </div>
-                )}
+									<div className='w-full px-4 '>
+										{user && user.uid === article.userId && (
+											<div className='flex justify-end p-1 cursor-pointer'>
+												<Deleteblogs
+													className='float-right text-2xl w-full cursor-pointer'
+													id={article.id}
+													imageUrl={article.imageUrl}></Deleteblogs>
+											</div>
+										)}
 
-                <p className="dm text-[32px] text-[#6EEB83] ">
-                  {article.title}
-                </p>
-                <div className="flex justify-between items-center w-full  pr-5">
-                  <p className="lex text-[25px] text-gray-500">
-                    by-{article.createdBy}
-                  </p>
-                  <p className="lex text-gray-500">
-                    {article.createdAt.toDate().toDateString()}
-                  </p>
-                </div>
-                <div className="mt-7">
-                  <p className="text-[20px] lex text-gray-100 text-justify pb-4">
-                    {article.description}
-                  </p>
-                </div>
+										<p className='mon font-bold text-[26px]  '>
+											{article.title}
+										</p>
+										<div className='flex justify-between items-center w-full  pr-5'>
+											<p className='mon text-[12px] font-semibold '>
+												{article.createdBy}
+											</p>
+											<p className='mon text-[12px] text-gray-500'>
+												{article.createdAt.toDate().toDateString()}
+											</p>
+										</div>
+										<div className='mt-7'>
+											<p className='text-[12px] mon font-weight-400 text-[#475569] text-justify pb-4'>
+												{article.description.split(" ").slice(0, 10).join(" ")}
+												...
+											</p>
+										</div>
 
-                <div className="flex items-center mb-4 gap-6 justify-end">
-                  <Link to={`/article/${article.id}`}>
-                    {" "}
-                    <div className="flex items-center gap-1 text-xl lex">
-                    
-                      <TfiCommentAlt className="mt-1" />
-                      <span>{article.comments?.length}</span>
-                    </div>
-                  </Link>
-                  <div>
-                    {user && (
-                      <p className="text-xl lex flex items-center gap-1 w-full justify-end ">
-                        {" "}
-                        <Likeblog  id={article.id} likes={article.likes} />{" "}
-                      {article.likes?.length}
-                      </p>
+										<div className='flex items-center mb-4 gap-6 justify-end'>
+											<Link to={`/article/${article.id}`}>
+												{" "}
+												<div className='flex items-center gap-1 text-[12px] mon'>
+													<TfiCommentAlt className='mt-1' />
+													<span>{article.comments?.length}</span>
+												</div>
+											</Link>
+											<div>
+												{user && (
+													<p className='text-[12px] mon flex items-center gap-1 w-full justify-end '>
+														{" "}
+														<Likeblog
+															id={article.id}
+															likes={article.likes}
+														/>{" "}
+														{article.likes?.length}
+													</p>
+												)}
 
-                    )}
+												{!user ? (
+													<p className=' text-[12px] mon'>
+														{article.likes?.length} Likes
+													</p>
+												) : (
+													""
+												)}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						);
+					})}
+				</div>
 
-                    {
-                      !user?<p className="lex text-xl ">{article.likes?.length} Likes
-                      </p>:''
-                    }
-                
-                  
+				<div className='md:w-[40%] '>
+					<div className='bg-white p-3'>
+						<h1 className='mon text-[24px] font-bold'>Follow Us</h1>
+						<div className='grid grid-cols-2 p-1 gap-2'>
+							<div className=' flex justify-center items-center gap-1 rounded-xl bg-blue-500 text-white p-2 text-xl'>
+								<AiOutlineTwitter className='' />
+								<p className='text-[14px] mon font-weight-400'>Twitter</p>
+							</div>
 
+							<div className=' flex justify-center items-center gap-1 rounded-xl bg-red-500 text-white p-2 text-xl'>
+								<AiFillYoutube className='' />
+								<p className='text-[14px] mon font-weight-400'>Youtube</p>
+							</div>
+						</div>
+					</div>
+					<div className='bg-white mt-10'>
+						<h1 className='p-3 text-[24px] font-bold mon'>
+							Discover more of what matters to you
+						</h1>
+						<div className='grid grid-cols-3 gap-4 p-3'>
+							<div className='w-full rounded-xl flex items-center justify-center bg-gray-300 text-[14px] mon p-2'>
+								#Tech
+							</div>
 
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
+							<div className=' w-full rounded-xl flex items-center justify-center bg-gray-300 text-[14px] mon p-2'>
+								#Sports
+							</div>
+
+							<div className=' w-full rounded-xl flex items-center justify-center bg-gray-300 text-[14px] mon p-2'>
+								#Politics
+							</div>
+
+							<div className='w-full rounded-xl flex items-center justify-center bg-gray-300 text-[14px] mon p-2'>
+								#Writing
+							</div>
+
+							<div className='w-full rounded-xl flex items-center justify-center bg-gray-300 text-[14px] mon p-1'>
+								#Life
+							</div>
+
+							<div className='rounded-xl flex items-center justify-center bg-gray-300 text-[14px] mon p-1'>
+								#New
+							</div>
+						</div>
+					</div>
+					<Social article={articles} />
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default Allblogs;

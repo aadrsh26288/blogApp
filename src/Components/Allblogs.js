@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db, auth } from "../Firebase/firebaseConfig";
 import Deleteblogs from "./Deleteblogs";
+
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import Likeblog from "./Likeblog";
@@ -11,41 +12,65 @@ import Social from "./Social";
 
 const Allblogs = () => {
 	const [articles, setArticles] = useState([]);
+
+	const [userBlogCounts, setUserBlogCounts] = useState([]);
 	const [user] = useAuthState(auth);
 
-	useEffect(() => {
-		const ArticleRef = collection(db, "Articles");
-		const q = query(ArticleRef, orderBy("createdAt", "desc"));
-		onSnapshot(q, (snapshot) => {
-			const articles = snapshot.docs.map((doc) => ({
-				id: doc.id,
-				...doc.data(),
-			}));
-			setArticles(articles);
-		});
-	}, []);
+	// useEffect(() => {
+	// 	const ArticleRef = collection(db, "Articles");
+	// 	const q = query(ArticleRef, orderBy("createdAt", "desc"));
+	// 	onSnapshot(q, (snapshot) => {
+	// 		const articles = snapshot.docs.map((doc) => ({
+	// 			id: doc.id,
+	// 			...doc.data(),
+	// 		}));
+	// 		setArticles(articles);
+	// 	});
+	// }, []);
 
-	console.log(articles);
+	useEffect(() => {
+		const fetchArticles = async () => {
+			const ArticleRef = collection(db, "Articles");
+			const q = query(ArticleRef, orderBy("createdAt", "desc"));
+			const unsubscribe = onSnapshot(q, (snapshot) => {
+				const articles = snapshot.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(),
+				}));
+				setArticles(articles);
+			});
+
+			return () => {
+				unsubscribe();
+			};
+		};
+
+		const calculateBlogCounts = () => {
+			const blogCounts = [];
+			articles.forEach((article) => {
+				const { createdBy } = article;
+				const existingUser = blogCounts.find(
+					(user) => user.createdBy === createdBy,
+				);
+				if (existingUser) {
+					existingUser.blogCount++;
+				} else {
+					blogCounts.push({ createdBy, blogCount: 1 });
+				}
+			});
+			setUserBlogCounts(blogCounts);
+		};
+		fetchArticles();
+		calculateBlogCounts();
+	}, [articles]);
+
+	console.log("articles", userBlogCounts);
 
 	return (
 		<div>
 			{/* <Social article={articles} /> */}
 			<div className='flex md:max-w-[85%] md:flex-row flex-col  mx-auto justify-center  gap-10 content-center'>
 				<div className=' w-full text-black bg-white'>
-					{/* <div className='text-4xl  lex font-bold text-center pb-10 '>
-					<p>
-						Want to write something?{" "}
-						<Link to='/login'>
-							<span className='text-[#6EEB83]'>login</span>
-						</Link>
-						/
-						<Link to='/register'>
-							<spna className='text-[#6EEB83]'>register</spna>
-						</Link>
-					</p>
-				</div> */}
-
-					{/* <p className="lex text-xl text-center">Login / Register to create a new blog</p> */}
 					{articles.length === 0 ? (
 						<h1 className='text-center mt-20 lex text-6xl'>Loadign...</h1>
 					) : (
@@ -177,6 +202,29 @@ const Allblogs = () => {
 						</div>
 					</div>
 					<Social article={articles} />
+
+					<div className='bg-white mt-10 p-2'>
+						<p className='text-[20px] font-semibold mon'>Top Writters</p>
+						{userBlogCounts.map((blogger) => (
+							// <li key={blogger.createdBy}>
+							// 	{blogger.createdBy}: {blogger.blogCount} blogs
+							// </li>
+
+							<div className='mon flex justify-between items-center mt-3 '>
+								<div className='flex items-center gap-2'>
+									<img
+										src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXIdvC1Q4WL7_zA6cJm3yileyBT2OsWhBb9Q&usqp=CAU'
+										className='rounded-full h-[35px] w-[35px]'
+									/>
+									<p className='text-[14px] font-semibold'>
+										{blogger.createdBy}
+									</p>
+								</div>
+
+								<p>{blogger.blogCount}</p>
+							</div>
+						))}
+					</div>
 				</div>
 			</div>
 		</div>

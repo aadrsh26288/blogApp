@@ -101,7 +101,9 @@ export default function Addblog(req, res, next) {
 				<>
 					<h2 className='text-2xl font-semibold text-center'>Create Article</h2>
 					<div className='flex flex-col gap-1  '>
-						<label htmlFor=''>Title</label>
+						<label htmlFor='' className='mon font-semibold'>
+							Title
+						</label>
 						<input
 							type='text'
 							name='title'
@@ -114,7 +116,9 @@ export default function Addblog(req, res, next) {
 
 					{/* description */}
 					<div className='flex flex-col gap-1 mt-5'>
-						<label htmlFor=''>Description</label>
+						<label htmlFor='' className='mon font-semibold'>
+							Description
+						</label>
 						<textarea
 							name='description'
 							placeholder='Description'
@@ -126,7 +130,9 @@ export default function Addblog(req, res, next) {
 
 					{/* image */}
 					<div className='flex flex-col gap-1 mt-5'>
-						<label htmlFor=''>Image</label>
+						<label htmlFor='' className='mon font-semibold'>
+							Image
+						</label>
 						<input
 							type='file'
 							name='image'

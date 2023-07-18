@@ -29,7 +29,8 @@ const Comment = ({ id }) => {
 
 	const handleChangeComment = (e) => {
 		if (e.key === "Enter") {
-			updateDoc(commentRef, {
+			(commentRef,
+			{
 				comments: arrayUnion({
 					user: currentlyLoggedinUser.uid,
 					userName: currentlyLoggedinUser.displayName,

@@ -25,10 +25,7 @@ const Social = ({ article }) => {
 				{article.slice(0, 3).map((a) => {
 					return (
 						<div className='flex gap-4 items-center p-3'>
-							<img
-								src={a.imageUrl}
-								className='h-[50px] w-[70px] object-cover'
-							/>
+							<img src={a.imageUrl} className='h-[50px] w-[70px]' />
 							<div>
 								<p className='text-[16px] mon font-semibold'>{a.title}</p>
 								<p>{a.createdBy}</p>

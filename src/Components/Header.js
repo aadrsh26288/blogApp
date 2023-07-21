@@ -4,9 +4,13 @@ import { signOut } from "firebase/auth";
 import { auth } from "../Firebase/firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { FaUserCheck } from "react-icons/fa";
+import { useState } from "react";
 
 const Header = () => {
 	const [user] = useAuthState(auth);
+	const [searchInput, setSearchInput] = useState("");
+	console.log(searchInput);
+
 	return (
 		<header className=' lex bg-black p-4 text-white flex items-center justify-between'>
 			<div className=''>
@@ -17,6 +21,17 @@ const Header = () => {
 						className='w-[30px] object-cover '
 					/>{" "}
 				</Link>
+			</div>
+			<div>
+				<input
+					type='text'
+					placeholder='search'
+					value={searchInput}
+					onChange={(e) => {
+						setSearchInput(e.target.value);
+					}}
+					className='p-1 outline-none text-black w-[440px] px-4 rounded-md'
+				/>
 			</div>
 
 			<div className='flex items-center  gap-4'>

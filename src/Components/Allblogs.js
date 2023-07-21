@@ -12,7 +12,7 @@ import Social from "./Social";
 
 const Allblogs = () => {
 	const [articles, setArticles] = useState([]);
-
+	const [showAll, setShowAll] = useState(false);
 	const [userBlogCounts, setUserBlogCounts] = useState([]);
 	const [user] = useAuthState(auth);
 
@@ -72,12 +72,12 @@ const Allblogs = () => {
 			<div className='flex md:max-w-[85%] md:flex-row flex-col  mx-auto justify-center  gap-10 content-center'>
 				<div className=' w-full text-black bg-white'>
 					{articles.length === 0 ? (
-						<h1 className='text-center mt-20 lex text-6xl'>Loadign...</h1>
+						<h1 className='text-center mt-20 lex text-6xl'>Loading...</h1>
 					) : (
 						""
 					)}
 
-					{articles.map((article) => {
+					{articles.slice(0, showAll ? articles.length : 5).map((article) => {
 						return (
 							<div>
 								<div
@@ -154,7 +154,25 @@ const Allblogs = () => {
 							</div>
 						);
 					})}
+					{articles.length === 0 ? (
+						""
+					) : (
+						<div className='w-full flex justify-center'>
+							<button
+								onClick={() => {
+									setShowAll(!showAll);
+								}}
+								className=' my-4 bg-black text-white p-2 rounded-md px-8'>
+								{showAll == true ? "Show Less" : "Show All"}
+							</button>
+						</div>
+					)}
 				</div>
+				{/* {articles.length === 0 ? (
+						""
+					) : (
+						
+					)} */}
 
 				<div className='md:w-[40%] '>
 					<div className='bg-white p-3'>

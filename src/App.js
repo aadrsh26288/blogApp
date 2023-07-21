@@ -4,6 +4,7 @@ import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import Allblogs from "./Components/Allblogs";
 import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 import Blog from "./Components/Blog";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -19,6 +20,7 @@ function App() {
 					<Route exact path='/register' element={<Register />} />
 					<Route exact path='/article/:id' element={<Blog />} />
 				</Routes>
+				<Footer></Footer>
 			</BrowserRouter>
 		</div>
 	);

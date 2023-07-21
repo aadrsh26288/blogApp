@@ -22,7 +22,7 @@ const Header = () => {
 					/>{" "}
 				</Link>
 			</div>
-			<div>
+			{/* <div>
 				<input
 					type='text'
 					placeholder='search'
@@ -32,7 +32,7 @@ const Header = () => {
 					}}
 					className='p-1 outline-none text-black w-[440px] px-4 rounded-md'
 				/>
-			</div>
+			</div> */}
 
 			<div className='flex items-center  gap-4'>
 				<div className=''>

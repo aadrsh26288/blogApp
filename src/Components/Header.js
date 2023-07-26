@@ -12,8 +12,8 @@ const Header = () => {
 	console.log(searchInput);
 
 	return (
-		<header className=' lex bg-black p-4 text-white flex items-center justify-between'>
-			<div className=''>
+		<header className='  bg-black p-4 text-white flex items-center justify-between'>
+			<div className='flex items-center gap-10'>
 				<Link to='/'>
 					{" "}
 					<img
@@ -21,7 +21,22 @@ const Header = () => {
 						className='w-[30px] object-cover '
 					/>{" "}
 				</Link>
+				<p>Home</p>
+				<div className=''>
+					{user ? (
+						<Link to='/addblog'>
+							{" "}
+							<button className='flex font-weight-400 '>Create Blog</button>
+						</Link>
+					) : (
+						""
+					)}
+				</div>
+				<p>Top blogs</p>
+				<p>Latest Stories</p>
+				<p>Communities</p>
 			</div>
+
 			{/* <div>
 				<input
 					type='text'
@@ -35,16 +50,6 @@ const Header = () => {
 			</div> */}
 
 			<div className='flex items-center  gap-4'>
-				<div className=''>
-					{user ? (
-						<Link to='/addblog'>
-							{" "}
-							<button className='flex  '>Create Blog</button>
-						</Link>
-					) : (
-						""
-					)}
-				</div>
 				{user ? (
 					<button
 						onClick={() => {
@@ -62,10 +67,15 @@ const Header = () => {
 					{" "}
 					<button className=' '>Register</button>
 				</Link>
-				<p className='flex items-center gap-1 text-md text-[#6EEB83] '>
-					<FaUserCheck className='' />
-					{user?.displayName || user?.email}
-				</p>
+
+				{user ? (
+					<button className='flex items-center gap-1 text-md text-white border-2 p-1 px-2 rounded-md'>
+						{/* <FaUserCheck className='' /> */}
+						{user?.displayName || user?.email}
+					</button>
+				) : (
+					""
+				)}
 			</div>
 		</header>
 	);

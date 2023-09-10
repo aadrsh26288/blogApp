@@ -65,7 +65,7 @@ const Allblogs = () => {
 
 	return (
 		<>
-			<div className='z-0'>
+			<div className='z-0 pt-20'>
 				{/* <Social article={articles} /> */}
 
 				<div className=' flex md:max-w-[85%] md:flex-row flex-col  mx-auto justify-center  gap-10 content-center'>

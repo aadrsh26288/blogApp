@@ -35,7 +35,7 @@ const Register = () => {
 
 	return (
 		<>
-			<div className='flex flex-col items-center justify-center text-center mt-2'>
+			<div className='flex flex-col pt-20 items-center justify-center text-center mt-2'>
 				<p className='text-[40px] font-bold mon '>Welcome</p>
 				<p className='text-[20px] mon  '>let's sign up quickly</p>
 			</div>

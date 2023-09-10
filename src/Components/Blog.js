@@ -20,7 +20,7 @@ const Blog = () => {
 	});
 
 	return (
-		<div>
+		<div className='pt-10'>
 			{article && (
 				<div className="flex items-center justify-center flex-col bg-[url('https://images.unsplash.com/photo-1528035015334-80868324e60e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTEwfHxiYWNrZ3JvdW5kfGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=2000&q=60')] bg-center bg-no-repeat object-cover h-[200px]">
 					<p className='mon font-bold text-[32px] text-white  text-center '>

@@ -13,6 +13,7 @@ export default function Addblog(req, res, next) {
 	const [user] = useAuthState(auth);
 	console.log(user);
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
 	const [formData, setFormData] = useState({
 		title: "",
 		description: "",
@@ -35,7 +36,7 @@ export default function Addblog(req, res, next) {
 			alert("Please fill all the fields");
 			return;
 		}
-
+		setLoading(true);
 		const storageRef = ref(
 			storage,
 			`/images/${Date.now()}${formData.image.name}`,
@@ -53,6 +54,7 @@ export default function Addblog(req, res, next) {
 			},
 			(err) => {
 				console.log(err);
+				setLoading(false); // Set loading to false in case of an error
 			},
 			() => {
 				setFormData({
@@ -61,29 +63,34 @@ export default function Addblog(req, res, next) {
 					image: "",
 				});
 
-				getDownloadURL(uploadImage.snapshot.ref).then((url) => {
-					const articleRef = collection(db, "Articles");
-					addDoc(articleRef, {
-						title: formData.title,
-						description: formData.description,
-						imageUrl: url,
-						createdAt: Timestamp.now().toDate(),
-						createdBy: user.displayName,
-						userId: user.uid,
-						likes: [],
-						comments: [],
-					})
-						.then(() => {
-							toast("Article added successfully", { type: "success" });
-
-							setProgress(0);
-							navigate("/");
+				getDownloadURL(uploadImage.snapshot.ref)
+					.then((url) => {
+						const articleRef = collection(db, "Articles");
+						addDoc(articleRef, {
+							title: formData.title,
+							description: formData.description,
+							imageUrl: url,
+							createdAt: Timestamp.now().toDate(),
+							createdBy: user.displayName,
+							userId: user.uid,
+							likes: [],
+							comments: [],
 						})
-						.catch((err) => {
-							toast("Error adding article", { type: "error" });
-						});
-					console.log("kdkd", url);
-				});
+							.then(() => {
+								toast("Article added successfully", { type: "success" });
+								setProgress(0);
+								setLoading(false); // Set loading to false on success
+								navigate("/");
+							})
+							.catch((err) => {
+								toast("Error adding article", { type: "error" });
+								setLoading(false); // Set loading to false in case of an error
+							});
+					})
+					.catch((err) => {
+						console.log(err);
+						setLoading(false); // Set loading to false in case of an error
+					});
 			},
 		);
 	};
@@ -152,10 +159,20 @@ export default function Addblog(req, res, next) {
 							</div>
 						</div>
 					)}
+					{/* <div></div> */}
 					<button
-						className='bg-black text-white px-10 mt-5 p-2'
+						className='bg-white text-balck px-10 mt-5 p-2'
 						onClick={handlePublish}>
-						Publish
+						{loading === true ? (
+							<div className='flex gap-3 items-center'>
+								<div className=' loader bw '>
+									<div className='spin' />
+								</div>
+								<p className='text-md font-semibold'>Publishing...</p>
+							</div>
+						) : (
+							"publish"
+						)}
 					</button>
 				</>
 			)}

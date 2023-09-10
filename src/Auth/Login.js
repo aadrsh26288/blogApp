@@ -25,7 +25,7 @@ const Login = () => {
 
 	return (
 		<>
-			<div className='text-black flex flex-col items-center justify-center text-center'>
+			<div className='text-black pt-24 flex flex-col items-center justify-center text-center'>
 				<p className='text-[40px] font-bold mon'>Welcome</p>
 				<p className='text-[20px] mon'>let's Login quickly</p>
 			</div>
